@@ -9,7 +9,7 @@ def query_rag(question, top_k=3):
         n_results=top_k
     )
 
-    documents = results["documents"]
+    documents = results["documents"][0]
     metadatas = results["metadatas"][0]
 
     return documents, metadatas
