@@ -44,7 +44,7 @@ def store_pc_embeddings(chunks, embeddings):
             "values": embedding.tolist(),
             "metadata": {
                 "text": chunk["content"],
-                "source": "alice_in_wonderland.md"
+                "source": "merchant_of_venice_summary.pdf"
             }
         })
 
@@ -71,5 +71,4 @@ def query_pinecone(query_embedding, top_k=3):
             "text": match["metadata"]["text"],
             "source": match["metadata"].get("source", "unknown")
         })
-
     return formatted_results

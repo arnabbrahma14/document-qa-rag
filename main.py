@@ -7,30 +7,39 @@ from app.pinecone_service import (
     query_pinecone
 )
 from app.llm_service import generate_rag_answer
+from app.bm25_index import BM25Index
 
 # -------------------------------
 # ✅ Single-time ingestion logic
 # -------------------------------
 
-if is_index_empty():
-    print("🔄 Index is empty. Running ingestion...\n")
+# if is_index_empty():
+#     print("🔄 Index is empty. Running ingestion...\n")
 
-    pages = extract_text("data/alice_in_wonderland.md")
-    chunks = chunk_text(pages)
-    embeddings = generate_embeddings(chunks)
+#     pages = extract_text("data/merchant_of_venice_summary.pdf")
+#     chunks = chunk_text(pages)
+#     embeddings = generate_embeddings(chunks)
 
-    store_pc_embeddings(chunks, embeddings)
+#     store_pc_embeddings(chunks, embeddings)
 
-    print("✅ Document ingested successfully!\n")
+#     print("✅ Document ingested successfully!\n")
 
-else:
-    print("✅ Index already contains data. Skipping ingestion.\n")
+# else:
+#     print("✅ Index already contains data. Skipping ingestion.\n")
+    
+pages = extract_text("data/merchant_of_venice_summary.pdf")
+chunks = chunk_text(pages)
+embeddings = generate_embeddings(chunks)
+
+store_pc_embeddings(chunks, embeddings)
+
+#Using BM_25 searching
+bm25_index = BM25Index(chunks)
 
 
 # -------------------------------
 # ✅ Query Loop
 # -------------------------------
-
 while True:
     question = input("\nAsk a question (type 'exit' to quit): ")
 
@@ -43,23 +52,54 @@ while True:
     # Retrieve from Pinecone
     results = query_pinecone(query_embedding)
 
-    print("\n🔎 Retrieved Contexts:\n")
+    
+    #Retrieve from bm_25
+    results_bm25 = bm25_index.search(question, top_k=3)
+    
+    # print("#" * 120 + "\nPinecone Search Result\n"  + "#" * 120)
 
-    for i, result in enumerate(results, 1):
-        print(f"[{i}] ID: {result['id']}")
-        print(f"    Score : {result['score']}")
-        print(f"    Source: {result['source']}")
-        print(f"    Text  : {result['text'][:300]}...")
-        print("-" * 60)
-
-    # -------------------------------
-    # ✅ LLM-ready formatted context
-    # -------------------------------
-
-    llm_context = "\n\n".join(
+    # for i, result in enumerate(results, 1):
+    #     print(f"[{i}] ID: {result['id']}")
+    #     print(f"    Score : {result['score']}")
+    #     print(f"    Source: {result['source']}")
+    #     print(f"    Text  : {result['text']}")
+    #     print(f"    Text Length : {len(result['text'])}")
+    #     print("-" * 60)
+    
+    # print("#" * 120 + "\nBM_25 Search Result\n"  + "#" * 120)
+    # for chunk, score in results_bm25:
+    #     print(score)
+    #     print(chunk["content"])
+    
+    pinecone_context = "\n\n".join(
         [f"Source {i+1}:\n{res['text']}"
          for i, res in enumerate(results)]
     )
+
+    bm25_context = "\n\n".join(
+        [f"Source {i+4}:\n{chunk[0]['content']}" 
+         for i, chunk in enumerate(results_bm25)]
+    )
+
+    llm_context = pinecone_context + "\n\n" + bm25_context
+
+    # print("\n🔎 Retrieved Contexts:\n")
+
+    # for i, result in enumerate(results, 1):
+    #     print(f"[{i}] ID: {result['id']}")
+    #     print(f"    Score : {result['score']}")
+    #     print(f"    Source: {result['source']}")
+    #     print(f"    Text  : {result['text'][:300]}...")
+    #     print("-" * 60)
+
+    # # -------------------------------
+    # # ✅ LLM-ready formatted context
+    # # -------------------------------
+
+    # llm_context = "\n\n".join(
+    #     [f"Source {i+1}:\n{res['text']}"
+    #      for i, res in enumerate(results)]
+    # )
 
     print("\n📦 LLM INPUT FORMAT:\n")
     print("QUESTION:")
