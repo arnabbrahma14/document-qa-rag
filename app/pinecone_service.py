@@ -54,7 +54,7 @@ def store_pc_embeddings(chunks, embeddings):
 
 
 # ✅ Query function (LLM ready)
-def query_pinecone(query_embedding, top_k=3):
+def query_pinecone(query_embedding, top_k=10):
 
     results = pc_index.query(
         vector=query_embedding.tolist(),

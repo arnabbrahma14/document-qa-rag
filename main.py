@@ -8,6 +8,7 @@ from app.pinecone_service import (
 )
 from app.llm_service import generate_rag_answer
 from app.bm25_index import BM25Index
+from app.reranker import rerank_documents
 
 # -------------------------------
 # ✅ Single-time ingestion logic
@@ -54,7 +55,7 @@ while True:
 
     
     #Retrieve from bm_25
-    results_bm25 = bm25_index.search(question, top_k=3)
+    results_bm25 = bm25_index.search(question, top_k=10)
     
     # print("#" * 120 + "\nPinecone Search Result\n"  + "#" * 120)
 
@@ -70,18 +71,36 @@ while True:
     # for chunk, score in results_bm25:
     #     print(score)
     #     print(chunk["content"])
+
+     
+    # pinecone_context = "\n\n".join(
+    #     [f"Source {i+1}:\n{res['text']}"
+    #      for i, res in enumerate(results)]
+    # )
+
+    # bm25_context = "\n\n".join(
+    #     [f"Source {i+len(results) + 1}:\n{chunk[0]['content']}" 
+    #      for i, chunk in enumerate(results_bm25)]
+    # )
+
+    hybrid_chunk = [res['text'] for res in results] + [res[0]['content'] for res in results_bm25]
+
+    print("#" * 1000)
+    print("Initial top k Chunk")
+    for res in hybrid_chunk:
+        print(res[:300] + "\n")
+    print("#" * 1000)
     
-    pinecone_context = "\n\n".join(
-        [f"Source {i+1}:\n{res['text']}"
-         for i, res in enumerate(results)]
-    )
+    rerank_chunk = rerank_documents(question, hybrid_chunk, 5)
 
-    bm25_context = "\n\n".join(
-        [f"Source {i+4}:\n{chunk[0]['content']}" 
-         for i, chunk in enumerate(results_bm25)]
-    )
+    print("#" * 1000)
+    print("Reranked Chunk")
+    for res in rerank_chunk:
+        print(res[:300] + "\n")
+    print("#" * 1000)
 
-    llm_context = pinecone_context + "\n\n" + bm25_context
+    llm_context = "\n\n".join([f"Source {i+1}:\n{chunk}" 
+         for i, chunk in enumerate(rerank_chunk)])
 
     # print("\n🔎 Retrieved Contexts:\n")
 
