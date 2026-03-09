@@ -34,19 +34,7 @@ def is_index_empty():
 
 
 # ✅ Store embeddings (with batching)
-def store_pc_embeddings(chunks, embeddings):
-
-    vectors = []
-
-    for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
-        vectors.append({
-            "id": f"alice-chunk-{i}",
-            "values": embedding.tolist(),
-            "metadata": {
-                "text": chunk["content"],
-                "source": "merchant_of_venice_summary.pdf"
-            }
-        })
+def store_pc_embeddings(vectors):
 
     batch_size = 100
     for i in range(0, len(vectors), batch_size):
@@ -62,13 +50,13 @@ def query_pinecone(query_embedding, top_k=10):
         include_metadata=True
     )
 
-    formatted_results = []
+    # formatted_results = []
 
-    for match in results["matches"]:
-        formatted_results.append({
-            "id": match["id"],
-            "score": round(match["score"], 4),
-            "text": match["metadata"]["text"],
-            "source": match["metadata"].get("source", "unknown")
-        })
-    return formatted_results
+    # for match in results["matches"]:
+    #     formatted_results.append({
+    #         "id": match["id"],
+    #         "score": round(match["score"], 4),
+    #         "text": match["metadata"]["text"],
+    #         "source": match["metadata"].get("source", "unknown")
+    #     })
+    return results

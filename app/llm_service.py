@@ -6,8 +6,35 @@ load_dotenv()
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
+def prepare_context_and_citations(retrieval_results):
 
-def generate_rag_answer(question: str, retrieved_docs: list[dict]) -> str:
+    context_parts = []
+    citations = []
+
+    for i, match in enumerate(retrieval_results["matches"], start=1):
+
+        metadata = match["metadata"]
+
+        text = metadata["text"]
+        document = metadata["document_name"]
+        page = metadata["page_number"]
+
+        # Add citation index to chunk
+        context_parts.append(f"[{i}] {text}")
+
+        # Save citation metadata
+        citations.append({
+            "id": i,
+            "document": document,
+            "page": page
+        })
+
+    context = "\n\n".join(context_parts)
+
+    return context, citations
+
+
+def generate_rag_answer(question: str, context_block: str) -> str:
     """
     retrieved_docs = [
         {
@@ -20,12 +47,12 @@ def generate_rag_answer(question: str, retrieved_docs: list[dict]) -> str:
     """
 
     # Build context block
-    context_block = "\n\n".join(
-        [
-            f"Source {i+1} (score: {doc['score']}):\n{doc['text']}"
-            for i, doc in enumerate(retrieved_docs)
-        ]
-    )
+    # context_block = "\n\n".join(
+    #     [
+    #         f"Source {i+1} (score: {doc['score']}):\n{doc['text']}"
+    #         for i, doc in enumerate(retrieved_docs)
+    #     ]
+    # )
 
     prompt = f"""
 You are a helpful AI assistant.
@@ -36,7 +63,8 @@ If the answer is not found in the context, say:
 
 Do not make up information.
 Be concise and clear.
-Cite sources using [Source X] format.
+Whenever you use information from the context,
+cite it using [number].
 
 -----------------------
 CONTEXT:
@@ -55,3 +83,18 @@ FINAL ANSWER:
     )
 
     return response.text
+
+def format_response(answer, citations):
+
+    sources = "\n\nSources:\n"
+
+    for citation in citations:
+
+        sources += (
+            f"[{citation['id']}] "
+            f"{citation['document']} — Page {citation['page']}\n"
+        )
+
+    final_response = answer + sources
+
+    return final_response
