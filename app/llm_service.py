@@ -11,6 +11,29 @@ def prepare_context_and_citations(retrieval_results):
     context_parts = []
     citations = []
 
+    for i, chunk in enumerate(retrieval_results, start=1):
+
+        text = chunk["text"]
+        document = chunk["document_name"]
+        page = chunk["page"]
+
+        # Add citation index to chunk
+        context_parts.append(f"[{i}] {text}")
+
+        # Save citation metadata
+        citations.append({
+            "id": i,
+            "document": document,
+            "page": page
+        })
+
+    context = "\n\n".join(context_parts)
+
+    return context, citations
+
+    context_parts = []
+    citations = []
+
     for i, match in enumerate(retrieval_results["matches"], start=1):
 
         metadata = match["metadata"]

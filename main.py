@@ -53,11 +53,9 @@ while True:
     # Retrieve from Pinecone
     results = query_pinecone(query_embedding)
 
-    print(results)
-
     
     #Retrieve from bm_25
-    # results_bm25 = bm25_index.search(question, top_k=10)
+    results_bm25 = bm25_index.search(question, top_k=10)
     
     # print("#" * 120 + "\nPinecone Search Result\n"  + "#" * 120)
 

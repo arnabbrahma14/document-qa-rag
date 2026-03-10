@@ -19,7 +19,7 @@ class BM25Index:
         # Build BM25 index
         self.bm25 = BM25Okapi(self.tokenized_corpus)
 
-    def search(self, query, top_k=3):
+    def search(self, query, top_k=10):
 
         tokenized_query = query.lower().split()
 
