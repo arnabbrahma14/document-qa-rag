@@ -24,3 +24,12 @@ def generate_embeddings(chunks):
         })
 
     return vectors
+
+def embeddings_for_mmr(query, chunks):
+    chunk_embeddings = model.encode(
+        [chunk["text"] for chunk in chunks]
+    )
+
+    query_embedding = model.encode(query)
+
+    return query_embedding, chunk_embeddings

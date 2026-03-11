@@ -1,6 +1,6 @@
 from app.ingestion import extract_text
 from app.chunking import chunk_text
-from app.embeddings import generate_embeddings, model
+from app.embeddings import generate_embeddings, model, embeddings_for_mmr
 from app.pinecone_service import (
     store_pc_embeddings,
     is_index_empty,
@@ -8,7 +8,9 @@ from app.pinecone_service import (
 )
 from app.llm_service import generate_rag_answer, prepare_context_and_citations, format_response
 from app.bm25_index import BM25Index
-from app.reranker import rerank_documents
+from app.reranker import deduplicate_chunks, rerank_chunks, apply_mmr
+from app.retrieval_response_formatter import format_results
+import json
 
 # -------------------------------
 # ✅ Single-time ingestion logic
@@ -56,6 +58,55 @@ while True:
     
     #Retrieve from bm_25
     results_bm25 = bm25_index.search(question, top_k=10)
+
+
+
+    hybrid_result = format_results(results, "vector") + format_results(results_bm25, "bm25")
+
+    print("#" * 150)
+    print("Hybrid Result = Vector + BM25")
+    print("#" * 150)
+
+    print(json.dumps(hybrid_result, indent=4))
+
+    # for x in hybrid_result:
+    #     print(x)
+
+    #De duplicating using set
+    deduplicate_result = deduplicate_chunks(hybrid_result)
+
+    print("\n")
+    print("#" * 150)
+    print("Deduplicate Result")
+    print("#" * 150)
+    print("\n")
+
+    #Re ranking results
+    re_ranked_result = rerank_chunks(question, deduplicate_chunks(hybrid_result))
+
+    # for x in re_ranked_result:
+    #     print(x)
+
+    print(json.dumps(re_ranked_result, indent=4))
+
+
+    #Creating embeddings for mmr 
+    query_embed, chunk_embed = embeddings_for_mmr(question, re_ranked_result)
+
+    #final chunks after mmr
+    final_result = apply_mmr(query_embed, chunk_embed, re_ranked_result)
+
+    print("\n")
+    print("#" * 150)
+    print("Final Result")
+    print("#" * 150)
+    print("\n")
+
+    # for x in final_result:
+    #     print(x)
+
+    print(json.dumps(final_result, indent=4))
+
     
     # print("#" * 120 + "\nPinecone Search Result\n"  + "#" * 120)
 
@@ -99,7 +150,7 @@ while True:
     #     print(res[:300] + "\n")
     # print("#" * 1000)
 
-    context, citations = prepare_context_and_citations(results)
+    context, citations = prepare_context_and_citations(final_result)
 
     
 

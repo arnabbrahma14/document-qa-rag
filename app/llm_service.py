@@ -31,30 +31,30 @@ def prepare_context_and_citations(retrieval_results):
 
     return context, citations
 
-    context_parts = []
-    citations = []
+    # context_parts = []
+    # citations = []
 
-    for i, match in enumerate(retrieval_results["matches"], start=1):
+    # for i, match in enumerate(retrieval_results["matches"], start=1):
 
-        metadata = match["metadata"]
+    #     metadata = match["metadata"]
 
-        text = metadata["text"]
-        document = metadata["document_name"]
-        page = metadata["page_number"]
+    #     text = metadata["text"]
+    #     document = metadata["document_name"]
+    #     page = metadata["page_number"]
 
-        # Add citation index to chunk
-        context_parts.append(f"[{i}] {text}")
+    #     # Add citation index to chunk
+    #     context_parts.append(f"[{i}] {text}")
 
-        # Save citation metadata
-        citations.append({
-            "id": i,
-            "document": document,
-            "page": page
-        })
+    #     # Save citation metadata
+    #     citations.append({
+    #         "id": i,
+    #         "document": document,
+    #         "page": page
+    #     })
 
-    context = "\n\n".join(context_parts)
+    # context = "\n\n".join(context_parts)
 
-    return context, citations
+    # return context, citations
 
 
 def generate_rag_answer(question: str, context_block: str) -> str:

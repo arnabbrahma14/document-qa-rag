@@ -38,9 +38,9 @@ def format_results(data, retriever):
 
             formatted_chunk = {
                 "id": chunk["id"],
-                "text": chunk["text"],
-                "document_name": chunk["document_name"],
-                "page": chunk["page_number"],
+                "text": chunk["content"],
+                "document_name": chunk["metadata"]["document_name"],
+                "page": chunk["metadata"]["page_number"],
                 "score": float(score),
                 "retriever": "bm25"
             }
