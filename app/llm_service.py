@@ -104,7 +104,7 @@ FINAL ANSWER:
 """
 
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",  # or llama3-70b-8192
+        model="llama-3.1-8b-instant",  # or llama3-70b-8192
         messages=[
              {"role": "user", "content": prompt}
         ],
