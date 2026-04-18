@@ -34,6 +34,8 @@ pages = extract_text("data/merchant_of_venice_summary.pdf")
 chunks = chunk_text(pages, "merchant_of_venice_summary.pdf")
 vectors = generate_embeddings(chunks)
 
+
+
 store_pc_embeddings(vectors)
 
 #Using BM_25 searching

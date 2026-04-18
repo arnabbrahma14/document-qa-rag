@@ -1,0 +1,433 @@
+{
+  "version": "1.0",
+  "document": "merchant_of_venice_summary.pdf",
+  "chunk_count": 25,
+  "chunk_size": 400,
+  "chunk_overlap": 80,
+  "records": [
+    {
+      "id": "gd_001",
+      "question": "How much money did Bassanio borrow from Shylock, and for how long?",
+      "ground_truth_answer": "Bassanio borrowed three thousand ducats from Shylock for a period of three months.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_5"
+      ],
+      "query_type": "factoid",
+      "difficulty": "easy",
+      "theme": "bond_plot",
+      "ragas_axes": [
+        "context_precision",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunk 5 contains the loan amount and duration explicitly."
+    },
+    {
+      "id": "gd_002",
+      "question": "What penalty did Shylock attach to the loan if Antonio failed to repay it on time?",
+      "ground_truth_answer": "If the loan was not repaid on time, Shylock would have the right to cut off one pound of Antonio's flesh from any part of his body. The loan itself was offered without interest.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_7"
+      ],
+      "query_type": "factoid",
+      "difficulty": "easy",
+      "theme": "bond_plot",
+      "ragas_axes": [
+        "context_precision",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 7 contains the exact bond terms."
+    },
+    {
+      "id": "gd_003",
+      "question": "What did the Prince of Morocco find when he opened the gold casket?",
+      "ground_truth_answer": "The Prince of Morocco found a skull and a message explaining that appearances can be deceptive. Having chosen wrongly, he was required to leave.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_11"
+      ],
+      "query_type": "factoid",
+      "difficulty": "easy",
+      "theme": "casket_test",
+      "ragas_axes": [
+        "context_precision",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunk 11 describes Morocco's choice and its outcome."
+    },
+    {
+      "id": "gd_004",
+      "question": "What was the consequence for any suitor who chose the wrong casket?",
+      "ground_truth_answer": "Any suitor who chose incorrectly was required to promise never to marry anyone else.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_9"
+      ],
+      "query_type": "factoid",
+      "difficulty": "easy",
+      "theme": "casket_test",
+      "ragas_axes": [
+        "context_precision",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunk 9 states the penalty for an incorrect choice."
+    },
+    {
+      "id": "gd_005",
+      "question": "What alias did Portia use when she appeared in the Venetian courtroom?",
+      "ground_truth_answer": "Portia disguised herself as a learned lawyer named Balthazar.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_19"
+      ],
+      "query_type": "factoid",
+      "difficulty": "easy",
+      "theme": "trial_scene",
+      "ragas_axes": [
+        "context_precision",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunk 19 names Balthazar explicitly."
+    },
+    {
+      "id": "gd_006",
+      "question": "Why did Antonio sign the bond despite Bassanio's warning?",
+      "ground_truth_answer": "Antonio confidently agreed to the bond because he believed his merchant ships would return safely long before the loan was due, making repayment certain.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_8"
+      ],
+      "query_type": "factoid",
+      "difficulty": "easy",
+      "theme": "bond_plot",
+      "ragas_axes": [
+        "context_precision",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 8 gives Antonio's reasoning for accepting."
+    },
+    {
+      "id": "gd_007",
+      "question": "What did the Prince of Arragon find in the silver casket?",
+      "ground_truth_answer": "The Prince of Arragon found the portrait of a fool and a message explaining that arrogance leads to failure. He had chosen incorrectly and was required to leave Belmont.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_12"
+      ],
+      "query_type": "factoid",
+      "difficulty": "easy",
+      "theme": "casket_test",
+      "ragas_axes": [
+        "context_precision",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunk 12 describes Arragon's outcome."
+    },
+    {
+      "id": "gd_008",
+      "question": "Why did Antonio agree to Shylock's dangerous bond, and what actually happened to his ships?",
+      "ground_truth_answer": "Antonio agreed to the bond because he was confident his ships would return safely well before the three-month repayment deadline. However, his ships were lost at sea, leaving him unable to repay the loan and forcing Shylock to pursue the bond.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_8",
+        "merchant_of_venice_summary.pdf_chunk_16",
+        "merchant_of_venice_summary.pdf_chunk_17"
+      ],
+      "query_type": "multi_hop",
+      "difficulty": "medium",
+      "theme": "bond_plot",
+      "ragas_axes": [
+        "context_recall",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 8 = Antonio's confidence. Chunks 16-17 = ships lost, bond enforced."
+    },
+    {
+      "id": "gd_009",
+      "question": "What history between Antonio and Shylock explains why Shylock proposed such a cruel bond?",
+      "ground_truth_answer": "Antonio had repeatedly insulted Shylock for being Jewish and for lending money at interest. He had publicly mocked Shylock and even spat on him. This accumulated resentment is what motivated Shylock to propose the flesh-bond rather than a straightforward loan.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_5",
+        "merchant_of_venice_summary.pdf_chunk_6",
+        "merchant_of_venice_summary.pdf_chunk_7"
+      ],
+      "query_type": "multi_hop",
+      "difficulty": "medium",
+      "theme": "shylock_antonio",
+      "ragas_axes": [
+        "context_recall",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 5 = past insults. Chunk 6 = resentment + Shylock's deliberation. Chunk 7 = the flesh bond proposed."
+    },
+    {
+      "id": "gd_010",
+      "question": "How did Bassanio fund his trip to Belmont, and what risk did that create for Antonio?",
+      "ground_truth_answer": "Because Antonio had no liquid cash \u2014 his money was tied up in ships at sea \u2014 he encouraged Bassanio to borrow using his credit. Bassanio approached Shylock for a loan of three thousand ducats. The risk was that if Antonio's ships failed to return in time, Shylock could enforce the bond and claim a pound of Antonio's flesh.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_4",
+        "merchant_of_venice_summary.pdf_chunk_5",
+        "merchant_of_venice_summary.pdf_chunk_7"
+      ],
+      "query_type": "multi_hop",
+      "difficulty": "medium",
+      "theme": "bond_plot",
+      "ragas_axes": [
+        "context_recall",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 4 = Antonio's cash situation + credit offer. Chunk 5 = loan amount. Chunk 7 = bond terms."
+    },
+    {
+      "id": "gd_011",
+      "question": "What events led to Antonio's arrest and trial?",
+      "ground_truth_answer": "Antonio's ships were lost at sea, making it impossible for him to repay his loan to Shylock. With the debt unpaid, Shylock refused all offers of settlement and demanded the pound of flesh stipulated in the bond. As a result, Antonio was arrested and brought to court.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_16",
+        "merchant_of_venice_summary.pdf_chunk_17",
+        "merchant_of_venice_summary.pdf_chunk_18"
+      ],
+      "query_type": "multi_hop",
+      "difficulty": "medium",
+      "theme": "trial_scene",
+      "ragas_axes": [
+        "context_recall",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 16 = ships lost. Chunk 17 = bond enforced, arrest. Chunk 18 = trial setup."
+    },
+    {
+      "id": "gd_012",
+      "question": "What happened to Shylock's family and wealth by the end of the play?",
+      "ground_truth_answer": "Shylock's daughter Jessica had eloped with Lorenzo, a Christian friend of Bassanio, taking money and jewels from Shylock's house. After the trial, half of Shylock's remaining wealth was awarded to the state and half to Antonio. Antonio allowed Shylock to retain his portion during his lifetime, but required him to leave it to Jessica and Lorenzo upon his death and to convert to Christianity. Shylock left the court defeated.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_15",
+        "merchant_of_venice_summary.pdf_chunk_16",
+        "merchant_of_venice_summary.pdf_chunk_21",
+        "merchant_of_venice_summary.pdf_chunk_22"
+      ],
+      "query_type": "multi_hop",
+      "difficulty": "hard",
+      "theme": "shylock_resolution",
+      "ragas_axes": [
+        "context_recall",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 15 = Jessica plans elopement. Chunk 16 = escape with money. Chunks 21-22 = wealth division, conversion."
+    },
+    {
+      "id": "gd_013",
+      "question": "Trace the complete journey of Bassanio's ring from when Portia gave it to him to how it was returned to her.",
+      "ground_truth_answer": "Portia gave Bassanio a ring as a symbol of their love when he chose the correct casket, asking him never to lose or give it away. After the trial, Portia \u2014 still disguised as Balthazar \u2014 asked Bassanio for the ring as a reward. After some hesitation, he gave it to her. Back in Belmont, Portia revealed her disguise and that she had received the ring from him, effectively returning it to herself.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_15",
+        "merchant_of_venice_summary.pdf_chunk_22",
+        "merchant_of_venice_summary.pdf_chunk_23"
+      ],
+      "query_type": "multi_hop",
+      "difficulty": "hard",
+      "theme": "ring_subplot",
+      "ragas_axes": [
+        "context_recall",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 15 = ring gifted. Chunk 22 = ring given to disguised Portia. Chunk 23 = disguise revealed."
+    },
+    {
+      "id": "gd_014",
+      "question": "What does Bassanio's casket choice reveal about the play's attitude toward superficial appearances?",
+      "ground_truth_answer": "Bassanio's choice reveals that the play treats superficial appearances as deceptive and unworthy guides for judgment. He rejected gold and silver because he recognised they symbolise pride and outward show, and chose lead precisely because it promised only what a person truly deserves. This mirrors the play's broader theme that genuine worth lies beneath plain surfaces rather than in glittering exteriors.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_13",
+        "merchant_of_venice_summary.pdf_chunk_14"
+      ],
+      "query_type": "abstractive",
+      "difficulty": "hard",
+      "theme": "themes",
+      "ragas_axes": [
+        "faithfulness",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunks 13-14 contain Bassanio's reasoning and the lead casket outcome."
+    },
+    {
+      "id": "gd_015",
+      "question": "What central tension does Portia's mercy speech represent in the play, and how is it ultimately resolved?",
+      "ground_truth_answer": "Portia's speech represents the tension between strict legal justice and moral mercy. Shylock insisted on his contractual right to the pound of flesh; Portia argued that mercy is a higher virtue than rigid justice. Crucially, the tension is not resolved through Shylock being moved by mercy \u2014 he refuses \u2014 but through Portia finding a legal technicality that renders the bond unenforceable without spilling blood, defeating Shylock on his own legalistic terms.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_18",
+        "merchant_of_venice_summary.pdf_chunk_19",
+        "merchant_of_venice_summary.pdf_chunk_20"
+      ],
+      "query_type": "abstractive",
+      "difficulty": "hard",
+      "theme": "themes",
+      "ragas_axes": [
+        "faithfulness",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunk 18 = Shylock's refusal. Chunk 19 = mercy speech. Chunk 20 = blood technicality."
+    },
+    {
+      "id": "gd_016",
+      "question": "How does Antonio's mercy toward Shylock after the trial contrast with his earlier treatment of him?",
+      "ground_truth_answer": "Earlier in the play, Antonio had publicly insulted, mocked, and spat on Shylock because of his Jewish identity and his practice of lending at interest \u2014 behaviour that fuelled Shylock's resentment. After the trial, when Shylock was stripped of half his wealth and facing total ruin, Antonio intervened to let Shylock retain his portion during his lifetime rather than lose everything immediately. This contrast highlights mercy as a theme, even from someone who had previously shown contempt.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_5",
+        "merchant_of_venice_summary.pdf_chunk_21"
+      ],
+      "query_type": "abstractive",
+      "difficulty": "hard",
+      "theme": "themes",
+      "ragas_axes": [
+        "faithfulness",
+        "context_recall"
+      ],
+      "gt_context_note": "Chunk 5 = past cruelty to Shylock. Chunk 21 = Antonio's post-trial mercy."
+    },
+    {
+      "id": "gd_017",
+      "question": "How did the reasoning of the Prince of Morocco, the Prince of Arragon, and Bassanio differ when choosing a casket?",
+      "ground_truth_answer": "Morocco chose gold believing that something as precious as Portia must be contained in the most valuable material \u2014 a judgment based on surface worth. Arragon chose silver out of arrogance, believing he deserved Portia more than other suitors. Bassanio, by contrast, rejected gold and silver as symbols of superficial appearances and pride, and chose lead because it represented true desert rather than outward show. Only Bassanio's inward-looking reasoning led to the correct choice.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_11",
+        "merchant_of_venice_summary.pdf_chunk_12",
+        "merchant_of_venice_summary.pdf_chunk_13",
+        "merchant_of_venice_summary.pdf_chunk_14"
+      ],
+      "query_type": "comparative",
+      "difficulty": "medium",
+      "theme": "casket_test",
+      "ragas_axes": [
+        "context_recall",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 11 = Morocco. Chunk 12 = Arragon. Chunks 13-14 = Bassanio."
+    },
+    {
+      "id": "gd_018",
+      "question": "How does Portia's situation at the start of the play compare to Bassanio's?",
+      "ground_truth_answer": "Both face constraints that restrict their freedom of choice. Bassanio is a nobleman in debt who lacks the means to court the woman he loves and must rely on a risky loan. Portia, wealthy and admired, is nonetheless bound by her late father's will to accept only the suitor who correctly solves the casket test, giving her no direct say in choosing her husband. Both are subject to external forces \u2014 financial and legal \u2014 that shape their fates.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_2",
+        "merchant_of_venice_summary.pdf_chunk_3",
+        "merchant_of_venice_summary.pdf_chunk_8",
+        "merchant_of_venice_summary.pdf_chunk_9",
+        "merchant_of_venice_summary.pdf_chunk_10"
+      ],
+      "query_type": "comparative",
+      "difficulty": "hard",
+      "theme": "bassanio_portia",
+      "ragas_axes": [
+        "context_recall",
+        "answer_relevancy"
+      ],
+      "gt_context_note": "Chunks 2-3 = Bassanio's debt. Chunks 8-9 = casket test rules. Chunk 10 = Portia's constrained position."
+    },
+    {
+      "id": "gd_019",
+      "question": "What were the names of Antonio's ships that sank?",
+      "ground_truth_answer": "The document does not mention the names of Antonio's ships. It only states that his ships were lost at sea.",
+      "ground_truth_contexts": [],
+      "query_type": "unanswerable",
+      "difficulty": "easy",
+      "theme": "bond_plot",
+      "ragas_axes": [
+        "faithfulness"
+      ],
+      "gt_context_note": "No chunk names any ship. Pipeline must not hallucinate names."
+    },
+    {
+      "id": "gd_020",
+      "question": "What exact words did Portia use in her mercy speech?",
+      "ground_truth_answer": "The document does not reproduce Portia's mercy speech verbatim. It only states that she delivered a famous speech explaining that mercy is greater than strict justice.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_19"
+      ],
+      "query_type": "unanswerable",
+      "difficulty": "easy",
+      "theme": "trial_scene",
+      "ragas_axes": [
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 19 references the speech but gives no verbatim text."
+    },
+    {
+      "id": "gd_021",
+      "question": "How did Shylock respond emotionally to being forced to convert to Christianity?",
+      "ground_truth_answer": "The document does not describe Shylock's emotional reaction to the conversion requirement. It only states that he left the court defeated.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_22"
+      ],
+      "query_type": "unanswerable",
+      "difficulty": "medium",
+      "theme": "shylock_resolution",
+      "ragas_axes": [
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 22 mentions conversion and defeat but no emotional description."
+    },
+    {
+      "id": "gd_022",
+      "question": "What did Salarino and Solanio think was the real reason for Antonio's sadness?",
+      "ground_truth_answer": "Salarino and Solanio suggested two possible reasons for Antonio's sadness: first, that he was worried about his merchant ships at sea, which could be lost in storms or attacked by pirates; and second, that he might be in love. Antonio dismissed both explanations. The document does not reveal what they privately believed to be the true cause.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_1",
+        "merchant_of_venice_summary.pdf_chunk_2"
+      ],
+      "query_type": "unanswerable",
+      "difficulty": "medium",
+      "theme": "antonio_mood",
+      "ragas_axes": [
+        "faithfulness",
+        "context_precision"
+      ],
+      "gt_context_note": "Chunks 1-2 give the suggestions but not any private belief. Partial answer exists."
+    },
+    {
+      "id": "gd_023",
+      "question": "What happened to the ring?",
+      "ground_truth_answer": "Portia gave Bassanio a ring as a symbol of their love after he chose the correct casket, asking him never to give it away. Later, Portia in her disguise as Balthazar asked Bassanio for the ring as payment after the trial, and he gave it to her. Similarly, Gratiano gave Nerissa's ring to the clerk (Nerissa in disguise). Back in Belmont, Portia and Nerissa revealed their disguises, and both husbands realised they had returned the rings to their own wives.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_15",
+        "merchant_of_venice_summary.pdf_chunk_22",
+        "merchant_of_venice_summary.pdf_chunk_23"
+      ],
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "theme": "ring_subplot",
+      "ragas_axes": [
+        "answer_relevancy",
+        "faithfulness"
+      ],
+      "gt_context_note": "Ring appears in chunks 15, 22, 23. Full arc needed for a complete answer."
+    },
+    {
+      "id": "gd_024",
+      "question": "Why did Bassanio go to Belmont?",
+      "ground_truth_answer": "Bassanio went to Belmont to court Portia, a wealthy heiress he had fallen in love with. He believed she might return his feelings but needed money for the journey and to present himself as a worthy suitor, which is why he sought financial help from Antonio.",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_3",
+        "merchant_of_venice_summary.pdf_chunk_4"
+      ],
+      "query_type": "ambiguous",
+      "difficulty": "easy",
+      "theme": "bassanio_portia",
+      "ragas_axes": [
+        "answer_relevancy",
+        "context_precision"
+      ],
+      "gt_context_note": "Chunks 3-4 contain Bassanio's motivation and how he secured funding."
+    },
+    {
+      "id": "gd_025",
+      "question": "What are the themes of the play?",
+      "ground_truth_answer": "The Merchant of Venice explores themes of mercy, justice, prejudice, friendship, and love. These are woven through the legal conflict between Shylock and Antonio (mercy vs. strict justice), the treatment of Shylock as a Jewish character (prejudice), the bond between Antonio and Bassanio (friendship), the romance of Bassanio and Portia (love), and the casket test (the deceptiveness of appearances).",
+      "ground_truth_contexts": [
+        "merchant_of_venice_summary.pdf_chunk_0",
+        "merchant_of_venice_summary.pdf_chunk_24"
+      ],
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "theme": "themes",
+      "ragas_axes": [
+        "answer_relevancy",
+        "faithfulness"
+      ],
+      "gt_context_note": "Chunk 0 = theme introduction. Chunk 24 = closing theme summary."
+    }
+  ]
+}
