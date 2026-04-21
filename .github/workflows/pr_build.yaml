@@ -1,12 +1,16 @@
-name: PR Evaluation Check
+name: PR Evaluation + Deploy
 
 on:
   push:
     branches:
-      - "**" # run on ALL branches
+      - "**"
   pull_request:
     branches:
-      - "**" # run on PRs targeting ANY branch
+      - "**"
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   rag-eval:
@@ -19,7 +23,7 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11.14"
+          python-version: "3.11"
 
       - name: ⚡ Cache pip
         uses: actions/cache@v4
@@ -32,11 +36,58 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 🔐 Set Environment Variables
-        run: |
-          echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> $GITHUB_ENV
-          echo "PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }}" >> $GITHUB_ENV
-
       - name: 🧪 Run RAG Evaluation
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+        run: python eval.py
+
+      # -----------------------------
+      # 🚀 GCP AUTH
+      # -----------------------------
+      - name: 🔐 Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/186872486441/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github-actions-sa@project-26124ffb-54aa-4c1c-884.iam.gserviceaccount.com
+          token_format: access_token
+
+      - name: ☁️ Set up GCloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: 🐳 Login to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: asia-south1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      # -----------------------------
+      # 🐳 BUILD & PUSH IMAGE
+      # -----------------------------
+      - name: 🐳 Build Docker Image
         run: |
-          python eval.py
+          docker build -t asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/rag-repo/rag-app:${{ github.sha }} .
+
+      - name: 📤 Push Docker Image
+        run: |
+          docker push asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/rag-repo/rag-app:${{ github.sha }}
+
+      # -----------------------------
+      # 🚀 DEPLOY TO CLOUD RUN
+      # -----------------------------
+      - name: 🚀 Deploy to Cloud Run
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+        run: |
+          gcloud run deploy rag-app \
+            --image asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/rag-repo/rag-app:${{ github.sha }} \
+            --region asia-south1 \
+            --platform managed \
+            --allow-unauthenticated \
+            --memory 4Gi \
+            --min-instances 0 \
+            --max-instances 1 \
+            --set-env-vars "GROQ_API_KEY=${GROQ_API_KEY},PINECONE_API_KEY=${PINECONE_API_KEY}"
